@@ -39,7 +39,7 @@ class FirstPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("海康视频Demo"),
+          title: Text("Hikvision"),
         ),
         body: Form(
             key: _formKey,
@@ -47,26 +47,30 @@ class FirstPage extends StatelessWidget {
               children: [
                 TextFormField(
                   decoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(10), labelText: "请输入ip"),
+                      contentPadding: EdgeInsets.all(10),
+                      labelText: "Введите ip: "),
                   initialValue: "218.2.210.206",
                   onSaved: (v) => this.ip = v,
                 ),
                 TextFormField(
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(10), labelText: "请输入端口"),
+                      contentPadding: EdgeInsets.all(10),
+                      labelText: "Введите порт: "),
                   initialValue: "8000",
                   onSaved: (v) => this.port = int.parse(v),
                 ),
                 TextFormField(
                   decoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(10), labelText: "请输入user"),
+                      contentPadding: EdgeInsets.all(10),
+                      labelText: "Введите пользователя: "),
                   initialValue: "admin",
                   onSaved: (v) => this.user = v,
                 ),
                 TextFormField(
                   decoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(10), labelText: "请输入密码"),
+                      contentPadding: EdgeInsets.all(10),
+                      labelText: "Введите пароль: "),
                   initialValue: "admin",
                   onSaved: (v) => this.psd = v,
                 ),
@@ -84,10 +88,13 @@ class FirstPage extends StatelessWidget {
                     }
                   },
                 ),
-                IconButton(icon: Icon(Icons.pages),
-                onPressed: (){
-                  HkController.platformVersion.then((v)=>print("output:" + v));
-                },)
+                IconButton(
+                  icon: Icon(Icons.pages),
+                  onPressed: () {
+                    HkController.platformVersion
+                        .then((v) => print("output:" + v));
+                  },
+                )
               ],
             )));
   }
@@ -154,20 +161,22 @@ class _SecondPageState extends State<SecondPage> {
   }
 
   Widget buildCameras(Map cameras) {
-    var list = List<Widget>();
+    var list = <Widget>[];
     List<int> keys = List.from(cameras.keys);
     keys.sort((l, r) => l.compareTo(r));
     for (int key in keys) {
-      list.add(FlatButton(
-        child: Text(cameras[key]),
+      list.add(Container(
         padding: EdgeInsets.all(1),
         color: Colors.lightBlueAccent,
-        onPressed: () {
-          if (this.playerController.isPlaying) {
-            this.playerController.stop();
-          }
-          this.playerController.play(key);
-        },
+        child: ElevatedButton(
+          child: Text(cameras[key]),
+          onPressed: () {
+            if (this.playerController.isPlaying) {
+              this.playerController.stop();
+            }
+            this.playerController.play(key);
+          },
+        ),
       ));
     }
     return Container(
@@ -188,7 +197,7 @@ class _SecondPageState extends State<SecondPage> {
       if (this.cameras == null) {
         if (errMsg == null) {
           return Center(
-            child: Text("登录中。。。"),
+            child: Text("Загрузка。。。"),
           );
         } else {
           return Center(
